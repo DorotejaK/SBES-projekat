@@ -18,7 +18,6 @@ namespace ClientApp
 
             //4.1 - 8
             string srvCertCN = "wcfservice";
-            Console.WriteLine("Thank you Ivan. Zorana pozdrav od mene!");
             NetTcpBinding binding = new NetTcpBinding();
 			binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
