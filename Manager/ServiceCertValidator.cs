@@ -10,8 +10,11 @@ namespace Manager
 {
 	public class ServiceCertValidator : X509CertificateValidator
 	{
-			public override void Validate(X509Certificate2 certificate)
+	    public override void Validate(X509Certificate2 certificate)
 		{
+
+            //bool test = true;
+
             //throw new NotImplementedException();
             //da li su nam isti izdavaoci kod klijenta i serverw
             string srvCertCN = Formatter1.ParseName(WindowsIdentity.GetCurrent().Name); // vraca ime zorana/wcfclient ili servoce
@@ -21,11 +24,24 @@ namespace Manager
 
             if(!certificate.Issuer.Equals(srvCert.Issuer))
             {
+                //test =false;
+
                 //klijentski sertifikat je validan ukoliko je potpisan od strane istog
                 //sertifikacionog tela kao i servisni sertifikat;
                 throw new Exception("Certificate is not from valid issuer");
             }
+            /*
+             if (test )
+            {
+                Audit.AuthenticationSuccess(Formatter1.ParseName(certificate.SubjectName.Name));
+            }
+            else
+            {
+                Audit.AuthenticationFailed(Formatter1.ParseName(certificate.SubjectName.Name));
+            }
+             
+             */
 
         }
-	}
+    }
 }

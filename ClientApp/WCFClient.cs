@@ -87,9 +87,59 @@ namespace ClientApp
            
         }
 
+        public string NapraviRezervaciju(int id, int idProjekcije, DateTime vremeRezervacije, int kolicinaKarata, StanjeRezervacije stanje)
+        {
+
+            string retVal = "";
+            try
+            {
+                retVal = factory.NapraviRezervaciju(id, idProjekcije, vremeRezervacije, kolicinaKarata, stanje);
+                
+                return retVal;
+            }
+            catch (FaultException<SecurityEx> e)
+            {
+                Console.WriteLine("Greska prilikom pokusaja NapraviRezervaciju : {0}", e.Detail.Message);
+                return retVal;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Greska prilikom pokusaja NapraviRezervaciju: {0}", e.Message);
+                return retVal;
+            }
+
+        }
+
+       /* public string PlatiRezervaciju(Rezervacija rezervacija, Projekcija projekacija, Korisnik korisnik)
+        {
+            string retVal = "";
+            try
+            {
+                retVal = factory.PlatiRezervaciju(rezervacija, projekacija, korisnik);
+
+                return retVal;
+            }
+            catch (FaultException<SecurityEx> e)
+            {
+                Console.WriteLine("Greska prilikom pokusaja PlatiRezervaciju : {0}", e.Detail.Message);
+                return retVal;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Greska prilikom pokusaja PlatiRezervaciju: {0}", e.Message);
+                return retVal;
+            }
+
+
+        }*/
         public string ProcitajProjekcije()
         {
             return factory.ProcitajProjekcije();
+        }
+
+        public string ProcitajRezervacije()
+        {
+            return factory.ProcitajRezervacije();
         }
 
         public void Dispose()

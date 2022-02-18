@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Security;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Manager
@@ -30,7 +31,8 @@ namespace Manager
 
             foreach(X509Certificate2 c in certCollection)
             {
-                if (c.SubjectName.Name.Equals(string.Format("CN={0}", subjectName)))
+                //  CONTAINS/equals
+                if (c.SubjectName.Name.Contains(string.Format("CN={0}", subjectName)))
                 {
                     return c; //kad kliknemo na cer u diteails subject videcemo da je cn=... po tome znamo da je to bas taj sertifiakt
                 }
@@ -52,20 +54,21 @@ namespace Manager
 			return certificate;
 		}
 
-        //CEMU SLUZI OVA GRUPA 
-    /*    public static X509Certificate2 GetCertificateFromFile(string fileName, SecureString pwd)
+  
+        public static X509Certificate2 GetCertificateFromFile(string fileName, SecureString pwd)
         {
             X509Certificate2 certificate = null;
 
 
             return certificate;
         }
+
         public static string GetUserGroup(X509Certificate2 cert)
         {
             string[] parts = cert.SubjectName.Name.Split('=');
             return parts[2];
 
         }
-        */
+        
     }
 }

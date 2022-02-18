@@ -17,7 +17,7 @@ namespace Manager
 		/// <param name="certificate"> certificate to be validate </param>
 		public override void Validate(X509Certificate2 certificate)
 		{
-            
+           // bool test = true;
 
 
             if (!certificate.Subject.Equals(certificate.Issuer))
@@ -25,10 +25,38 @@ namespace Manager
                 //sevisni sertifikat je validan ukoliko nije self-signed
                 //klijent validira serverski sertifikat
 
+
+                //test = false;
                 throw new Exception("Certificate is not self-signed");
 
             }
 
+            /*
+            if (test)
+            {
+                try
+                {
+                    Audit.AuthenticationSuccess(Formatter1.ParseName(certificate.SubjectName.Name));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            else
+            {
+                try
+                {
+                    Audit.AuthenticationFailed(Formatter1.ParseName(certificate.SubjectName.Name));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+             
+             */
+
         }
-	}
+    }
 }

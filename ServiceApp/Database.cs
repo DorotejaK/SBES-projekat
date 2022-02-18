@@ -10,6 +10,7 @@ namespace ServiceApp
     {
 
         internal static Dictionary<int, Projekcija> projekcije = new Dictionary<int, Projekcija>();
+        internal static Dictionary<int, Rezervacija> rezervacije = new Dictionary<int, Rezervacija>();
 
 
         static Database()
@@ -26,6 +27,8 @@ namespace ServiceApp
             projekcije.Add(1, p1);
             projekcije.Add(2, p2);
             projekcije.Add(3, p3);
+
+
         }
     }
 }

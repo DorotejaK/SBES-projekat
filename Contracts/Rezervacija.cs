@@ -7,7 +7,11 @@ using System.Text;
 namespace Contracts
 {
     [DataContract]
-    public enum StanjeRezervacije {NEPLACENA, PLACENA}
+    public enum StanjeRezervacije {
+        [EnumMember]
+        NEPLACENA = 0,
+        [EnumMember]
+        PLACENA = 1}
 
     [DataContract]
     public class Rezervacija
@@ -24,8 +28,8 @@ namespace Contracts
         int idProjekcije;
         DateTime vremeRezervacije;
         int kolicinaKarata;
-
-        public Rezervacija(StanjeRezervacije stanje, int id, int idProjekcije, DateTime vremeRezervacije, int kolicinaKarata)
+        
+        public Rezervacija(int id, int idProjekcije, DateTime vremeRezervacije, int kolicinaKarata, StanjeRezervacije stanje)
         {
             this.Stanje = stanje;
             this.Id = id;

@@ -16,35 +16,42 @@ namespace Contracts
 
         //samo clan grupe Admin
         [OperationContract]
-        [FaultContract(typeof(SecurityEx))]
+        //[FaultContract(typeof(SecurityEx))]
         string DodajProjekciju(int id, string naziv, DateTime vremeProjekcije, int sala, double cenaKarte);
 
 
         //samo clan grupe Admin
         [OperationContract]
-        [FaultContract(typeof(SecurityEx))]
+        //[FaultContract(typeof(SecurityEx))]
         string IzmeniProjekciju(int id, string naziv, DateTime vremeProjekcije, int sala, double cenaKarte);
 
         //read projections
         [OperationContract]
-        [FaultContract(typeof(SecurityEx))]
+        //[FaultContract(typeof(SecurityEx))]
         string ProcitajProjekcije();
 
+        [OperationContract]
+        //[FaultContract(typeof(SecurityEx))]
+        string ProcitajRezervacije();
+
+        [OperationContract]
+        //[FaultContract(typeof(SecurityEx))]
+        string NapraviRezervaciju(int id, int idProjekcije, DateTime vremeRezervacije, int kolicinaKarata, StanjeRezervacije stanje);
 
         //dodati posle sta treba za klase 
-/*
+        /*
 
 
-        //samo clan grupe Admin
-        [OperationContract]
-        string IzmeniPropust(int idKorisnika);
+                //samo clan grupe Admin
+                [OperationContract]
+                string IzmeniPropust(int idKorisnika);
 
-        //Clan grupe Korisnik ili VIP 
-        [OperationContract]
-        string NapraviRezervaciju(int idKorisnika);
+                //Clan grupe Korisnik ili VIP 
+                [OperationContract]
+                string NapraviRezervaciju(int idKorisnika);
 
-        [OperationContract]
-        string PlatiRezervaciju(int idKorisnika);
-*/
+                [OperationContract]
+                string PlatiRezervaciju(int idKorisnika);
+        */
     }
 }
