@@ -38,6 +38,13 @@ namespace Contracts
         //[FaultContract(typeof(SecurityEx))]
         string NapraviRezervaciju(int id, int idProjekcije, DateTime vremeRezervacije, int kolicinaKarata, StanjeRezervacije stanje);
 
+
+        [OperationContract]
+        string PlatiRezervaciju(Rezervacija rezervacija, Projekcija projekacija, Korisnik korisnik);
+
+        [OperationContract]
+        string KorisnikPostoji(string korisnickoIme);
+
         //dodati posle sta treba za klase 
         /*
 

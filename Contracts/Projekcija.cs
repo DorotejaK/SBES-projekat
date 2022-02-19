@@ -29,6 +29,15 @@ namespace Contracts
             this.CenaKarte = cenaKarte;
         }
 
+        public Projekcija(string naziv, DateTime vremeProjekcije, int sala, double cenaKarte)
+        {
+
+            this.Naziv = naziv;
+            this.VremeProjekcije = vremeProjekcije;
+            this.sala = sala;
+            this.CenaKarte = cenaKarte;
+        }
+
         [DataMember]
         public int Id { get => id; set => id = value; }
         [DataMember]

@@ -110,7 +110,7 @@ namespace ClientApp
 
         }
 
-       /* public string PlatiRezervaciju(Rezervacija rezervacija, Projekcija projekacija, Korisnik korisnik)
+        public string PlatiRezervaciju(Rezervacija rezervacija, Projekcija projekacija, Korisnik korisnik)
         {
             string retVal = "";
             try
@@ -131,7 +131,7 @@ namespace ClientApp
             }
 
 
-        }*/
+        }
         public string ProcitajProjekcije()
         {
             return factory.ProcitajProjekcije();
@@ -152,6 +152,22 @@ namespace ClientApp
 			this.Close();
 		}
 
-        
+        public string KorisnikPostoji(string korisnickoIme)
+        {
+            string retVal = "";
+            try
+            {
+
+                retVal = factory.KorisnikPostoji(korisnickoIme);
+                return retVal;
+
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine("[KorisnikPostoji] ERROR = {0}", e.Message);
+                return retVal;
+            }
+        }
     }
 }

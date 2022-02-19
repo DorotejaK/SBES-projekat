@@ -1,29 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Contracts;
 using Manager;
 using System.Security.Cryptography.X509Certificates;
-using System.Threading;
 using System.ServiceModel;
-using System.Security;
+using SQLDatabase;
+using System.Collections.Generic;
 
 namespace ServiceApp
 {
     [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
     public class WCFService : IWCFContract
-	{
-        /*public void TestCommunication()
-		{
-			Console.WriteLine("Communication established.");
-		}*/
+    {
 
-        //1. DodajProjekciju - Samo Admin
+        public DatabaseController db = new DatabaseController();
 
+        // foreach (var rezervacija in Database.rezervacije.Values)
+        public string KorisnikPostoji(string korisnickoIme)
+        {
+            // var rezervacija in Database.rezervacije.Values
+            string retVal;
 
-        //2. IzmeniProjekciju - Samo Admin
-        //[PrincipalPermission(SecurityAction.Demand, Role = "Admin")]
+            //foreach (Korisnik k in Database.korisnici.ToValue())
+            foreach(var korisnici in Database.korisnici.Values)
+            {
+                if(korisnici.KorisnickoIme==korisnickoIme)
+                {
+                    retVal = "Uspesno ste ulogovani.";
+                    return retVal;
+                }
+            }
+
+            retVal = "Ne postoji korisnicko ime u bazi";
+            return retVal;
+        }
 
         public string DodajProjekciju(int id, string naziv, DateTime vremeProjekcije, int sala, double cenaKarte)
         {
@@ -45,6 +54,8 @@ namespace ServiceApp
                 {
                     Projekcija p = new Projekcija(id, naziv, vremeProjekcije, sala, cenaKarte);
                     Database.projekcije.Add(id, p);
+
+                    db.SacuvajProjekcije(new Projekcija(naziv, vremeProjekcije, sala, cenaKarte));
 
                     retVal = "Uspesno dodata projekcija.";
                     return retVal;
@@ -136,7 +147,7 @@ namespace ServiceApp
             }
             else
             {
-                retVal = "Samo korisnici i vip korisnici imaju prav pristupa.";
+                retVal = "Samo korisnici i vip korisnici imaju pravo pristupa.";
                 return retVal;
             }
         }
@@ -153,40 +164,67 @@ namespace ServiceApp
             VIP član onda se cena umanjuje za količinu popusta), i menja stanje rezervacije u
             PLACENA.*/
 
-         /* public string PlatiRezervaciju(Rezervacija rezervacija, Projekcija projekacija, Korisnik korisnik)
+          public string PlatiRezervaciju(Rezervacija rezervacija, Projekcija projekacija, Korisnik korisnik)
           {
-              string retVal;
 
-              if (Database.rezervacije.ContainsKey(rezervacija.Id))
-              {
-                double zaNaplatu = projekacija.CenaKarte * rezervacija.KolicinaKarata;
-                
-                  if ((rezervacija.Stanje == 0) && zaNaplatu <= korisnik.StanjeRacuna)
-                  {
-                      korisnik.StanjeRacuna = korisnik.StanjeRacuna - zaNaplatu;
-                      rezervacija.Stanje = StanjeRezervacije.PLACENA;
+                X509Certificate2 cltCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine,
+                    Formatter1.ParseName(ServiceSecurityContext.Current.PrimaryIdentity.Name));
 
-                      Database.rezervacije[rezervacija.Id] = rezervacija;
+                string grupa = CertManager.GetUserGroup(cltCert);
 
-                      retVal = "Uspesno ste platili projekciju.";
-                      return retVal;
-                  }
-                  else
-                  {
-                      retVal = "Nemate dovoljno novca na stanju. ";
-                      return retVal;
-                  }
+                string retVal;
 
-              }
+                if (grupa == "korisnik" || grupa == "vip")
+                {
 
-          } */
+                    if (Database.rezervacije.ContainsKey(rezervacija.Id))
+                    {
+                        double zaNaplatu = projekacija.CenaKarte * rezervacija.KolicinaKarata;
+
+                        if ((rezervacija.Stanje == 0) && zaNaplatu <= korisnik.StanjeRacuna)
+                        {
+                            korisnik.StanjeRacuna = korisnik.StanjeRacuna - zaNaplatu;
+                            rezervacija.Stanje = StanjeRezervacije.PLACENA;
+
+                            Database.rezervacije[rezervacija.Id] = rezervacija;
+
+                            retVal = "Uspesno ste platili projekciju.";
+                            return retVal;
+                        }
+
+                        retVal = "Nemate dovoljno novca na stanju. ";
+                        return retVal;
+
+                    }
+                    else
+                    {
+                        retVal = "Ne postoji rezervacija sa brojem ID-a.";
+                        return retVal;
+                    }
+
+                }
+                else
+                {
+                    retVal = "Samo korisnici i vip korisnici imaju pravo pristupa.";
+                    return retVal;
+                }
+
+          } 
 
         public string ProcitajProjekcije()
         {
             string retString = "";
-            foreach (var projekcija in Database.projekcije.Values) {
+
+            List<Projekcija> sveProejkcije = new List<Projekcija>();
+
+            sveProejkcije = db.DobaviSveProjekcije();
+            //foreach (var projekcija in Database.projekcije.Values) {
+            foreach (var projekcija in sveProejkcije)
+            {
                 retString += $"Id:{projekcija.Id} -> Naziv {projekcija.Naziv} + \n";
             }
+            
+
             return retString;
         }
 

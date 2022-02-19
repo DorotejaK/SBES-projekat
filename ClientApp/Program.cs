@@ -29,11 +29,28 @@ namespace ClientApp
 			EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9999/Receiver"),
 									  new X509CertificateEndpointIdentity(srvCert));
 
+
+            //logovanje korisinika
+
+            
+
+
+
+
+
             int idRezervacija = 0;
 			using (WCFClient proxy = new WCFClient(binding, address))
 			{
+
+                Console.WriteLine("Korisnicko ime: ");
+                var ki = Console.ReadLine();
+
+                var retVal1 = proxy.KorisnikPostoji(ki);
+                Console.WriteLine(retVal1);
+
                 while (true)
                 {
+
                     Console.WriteLine("Izaberite jednu od opcija: \n\n");
                     Console.WriteLine("1. Dodaj projekciju \n2. Izmeni projekciju \n3. Izmeni popust \n4. Napravi rezervaciju \n5. Plati rezervaciju \n6. Ispisi projekcije \n7. Ispisi rezervacije");
 
