@@ -38,6 +38,8 @@ namespace Contracts
             this.CenaKarte = cenaKarte;
         }
 
+        public Projekcija() { }
+
         [DataMember]
         public int Id { get => id; set => id = value; }
         [DataMember]

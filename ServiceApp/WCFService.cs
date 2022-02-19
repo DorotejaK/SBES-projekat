@@ -55,7 +55,7 @@ namespace ServiceApp
                     Projekcija p = new Projekcija(id, naziv, vremeProjekcije, sala, cenaKarte);
                     Database.projekcije.Add(id, p);
 
-                    db.SacuvajProjekcije(new Projekcija(naziv, vremeProjekcije, sala, cenaKarte));
+                    db.SacuvajProjekcije(new Projekcija(id, naziv, vremeProjekcije, sala, cenaKarte));
 
                     retVal = "Uspesno dodata projekcija.";
                     return retVal;
@@ -82,33 +82,64 @@ namespace ServiceApp
             string grupa = CertManager.GetUserGroup(cltCert);
 
 
-            string retVal;
+            string retVal="";
 
 
                 if (grupa == "admin")
                 {
 
-                    if (Database.projekcije.ContainsKey(id))
-                    {
-                        Projekcija p = new Projekcija(id, naziv, vremeProjekcije, sala, cenaKarte);
-                        Database.projekcije[id] = p;
+                    
+                    //if (db.DobaviProjekciju(id))
+                    //{
 
-                        retVal = "Uspesno izmenjena projekcija.";
+                        /*  db.AzurirajProjekcije(new Projekcija(id, naziv, vremeProjekcije, sala, cenaKarte));
+
+
+                          retVal = "Uspesno izmenjena projekcija.";
+                              return retVal;*/
+
+                        List<Projekcija> projekcije = new List<Projekcija>();
+
+                        bool pronasao = false;
+                        //double iznos = 0; 
+
+                        projekcije = db.DobaviSveProjekcije();
+
+
+                        foreach (Projekcija p in projekcije)
+                        {
+                            if (p.Id == id)
+                            {
+                                pronasao = true;
+                                db.AzurirajProjekcije(new Projekcija(id, naziv, vremeProjekcije, sala, cenaKarte));
+
+                            break;
+
+                            }
+
+                        }
+
+                        if (pronasao == true)
+                        {
+                            retVal = $"Projekcija uspesno azurirana";
+                        }
+                        else
+                        {
+                            retVal = "Azuriranje projekcije nije uspelo.";
+                        }
+
                         return retVal;
-                    }
-                    else
+
+                    //}
+                    /*else
                     {
-                        //ovo nije trazeno u zadatku, moze da se prilagodi
-                        /*string name = Thread.CurrentPrincipal.Identity.Name;
-                        DateTime time = DateTime.Now;
-                        string message = String.Format("Access is denied. User {0} try to call IzmeniProjekciju method (time : {1} ). " +
-                            "For this method need to be member of group Admin.", name);
-                        throw new FaultException<SecurityEx>(new SecurityEx(message));*/
+
 
                         retVal = "Neuspesno izmenjena projekcija.";
                         return retVal;
 
-                    }
+                    }*/
+            
                 }
                 else
                 {

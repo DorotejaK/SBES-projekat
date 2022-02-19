@@ -14,7 +14,7 @@ namespace ServiceApp
         internal static Dictionary<int, Korisnik> korisnici = new Dictionary<int, Korisnik>();
 
 
-        static Database()
+        /*static Database()
         {
             DateTime dt1 = new DateTime(2015, 12, 31);
             DateTime dt2 = new DateTime(2016, 11, 21);
@@ -34,6 +34,6 @@ namespace ServiceApp
             Korisnik k2 = new Korisnik("Dora", 1000);
             Korisnik k3 = new Korisnik("Mika", 500);
 
-        }
+        }*/
     }
 }

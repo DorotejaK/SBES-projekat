@@ -74,11 +74,6 @@ namespace ClientApp
 
                 return retVal;
             }
-            catch (FaultException<SecurityEx> e)
-            {
-                Console.WriteLine("Greska prilikom pokusaja IzmeneProjekcije : {0}", e.Detail.Message);
-                return retVal;
-            }
             catch (Exception e)
             {
                 Console.WriteLine("Greska prilikom pokusaja IzmeneProjekcije: {0}", e.Message);
