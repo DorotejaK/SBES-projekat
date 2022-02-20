@@ -48,7 +48,7 @@ namespace ClientApp
                 {
 
                     Console.WriteLine("Izaberite jednu od opcija: \n\n");
-                    Console.WriteLine("1. Dodaj projekciju \n2. Izmeni projekciju \n3. Izmeni popust \n4. Napravi rezervaciju \n5. Plati rezervaciju \n6. Ispisi projekcije \n7. Ispisi rezervacije \n8. Procitaj korisnika");
+                    Console.WriteLine("1. Dodaj projekciju \n2. Izmeni projekciju \n3. Izmeni popust \n4. Napravi rezervaciju \n5. Plati rezervaciju \n6. Ispisi projekcije");
 
                     var opp = Console.ReadLine();
 
@@ -126,10 +126,8 @@ namespace ClientApp
                         Console.WriteLine("Unesite ID korisnika: \n");
                         var idKorisnika = Console.ReadLine();
 
-                        // Console.WriteLine("Unesite vremeRezervacije: \n");
-                        //var vremeRezervacije = Console.ReadLine();
 
-                        Console.WriteLine("Unesite broj karata koje zelite da kupite: \n");
+                        Console.WriteLine("Unesite broj karata koje zelite da rezervisete: \n");
                         var kolicinaKarata = Console.ReadLine();
 
                         //stanje
@@ -150,8 +148,6 @@ namespace ClientApp
                         Console.WriteLine("==============Plati rezervaciju============\n\n");
 
 
-
-
                     }
                     else if (opp == "6")
                     {
@@ -159,19 +155,6 @@ namespace ClientApp
                         Console.WriteLine("==============Ispisi projekcije============\n\n");
                         Console.WriteLine(proxy.ProcitajProjekcije());
                     }
-                    else if (opp == "7")
-                    {
-                        Console.Clear();
-                        Console.WriteLine("==============Ispisi rezervacije============\n\n");
-                        Console.WriteLine(proxy.ProcitajRezervacije());
-                    }
-                    else if (opp == "8")
-                    {
-                        Console.Clear();
-                        Console.WriteLine("==============Ispisi korisnike============\n\n");
-                        Console.WriteLine(proxy.ProcitajKorisnika());
-                    }
-
                     else
                     {
                         Console.Clear();

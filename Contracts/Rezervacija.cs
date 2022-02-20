@@ -7,21 +7,17 @@ using System.Text;
 namespace Contracts
 {
     [DataContract]
-    public enum StanjeRezervacije {
+    public enum StanjeRezervacije
+    {
         [EnumMember]
         NEPLACENA = 0,
         [EnumMember]
-        PLACENA = 1}
+        PLACENA = 1
+    }
 
     [DataContract]
     public class Rezervacija
     {
-
-        //id(int),
-        //idProjekcije(int),
-        //vremeRezervacije(DateTime),
-        //kolicinaKarata(int), 
-        //stanje(StanjeRezervacije: NEPLACENA ili PLACENA).
 
         StanjeRezervacije stanje;
         int idRezervacije;
@@ -41,8 +37,6 @@ namespace Contracts
             this.Stanje = stanje;
         }
 
-
-
         [DataMember]
        public StanjeRezervacije Stanje { get => stanje; set => stanje = value; }
 
@@ -61,10 +55,6 @@ namespace Contracts
        [DataMember]
        public int KolicinaKarata { get => kolicinaKarata; set => kolicinaKarata = value; }
 
-        /*public override string ToString()
-        {
-            return String.Format("\n\nREZERVACIJA\n\nstanje : {0}, ID : {1}, id projekcije : {2}, vreme rezervacije : {3}, kolicina karata : {4}", Stanje, Id, IdProjekcije, VremeRezervacije, KolicinaKarata);
-        }*/
 
     }
 }

@@ -147,6 +147,35 @@ namespace SQLDatabase
 
         }
 
+      /*  public List<Rezervacija> DobaviSveRezervacije()
+        {
+            try
+            {
+                List<Rezervacija> retVal = new List<Rezervacija>();
+                myConnection.Open();
+                string querry = $"select * from Rezervacija";
+                SQLiteCommand cmd = new SQLiteCommand(querry, myConnection);
+                var result = cmd.ExecuteReader();
+                if (result.HasRows)
+                {
+                    while (result.Read())
+                    {
+                        retVal.Add(new Rezervacija(Convert.ToInt32(result["idRezervacije"]), Convert.ToInt32(result["idProjekcije"]), Convert.ToInt32(result["idKorisnika"]), Convert.ToDateTime(result["vremeRezervacije"]), Convert.ToInt32(result["kolicinaKarata"]), Convert.ToInt64(result["stanje"])));
+                    }
+                }
+                myConnection.Close();
+                return retVal;
+            }
+            catch (Exception e)
+            {
+                myConnection.Close();
+                Console.WriteLine(e.Message);
+                return null;
+            }
+
+        }*/
+
+
         public List<Korisnik> DobaviSveKorisnike()
         {
             try

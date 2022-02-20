@@ -36,6 +36,9 @@ namespace ServiceApp
 
                     db.SacuvajProjekcije(new Projekcija(id, naziv, vremeProjekcije, sala, cenaKarte));
 
+
+
+
                     retVal = "Uspesno dodata projekcija.";
                     return retVal;
                 }
@@ -204,7 +207,7 @@ namespace ServiceApp
             VIP član onda se cena umanjuje za količinu popusta), i menja stanje rezervacije u
             PLACENA.*/
 
-          public string PlatiRezervaciju(Rezervacija rezervacija, Projekcija projekacija, Korisnik korisnik)
+          /*public string PlatiRezervaciju(Rezervacija rez, Projekcija proj, Korisnik kor)
           {
 
                 X509Certificate2 cltCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine,
@@ -217,13 +220,17 @@ namespace ServiceApp
                 if (grupa == "korisnik" || grupa == "vip")
                 {
 
-                    if (Database.rezervacije.ContainsKey(rezervacija.IdRazervacije))
-                    {
-                        double zaNaplatu = projekacija.CenaKarte * rezervacija.KolicinaKarata;
+                    double zaNaplatu = proj.CenaKarte * rez.KolicinaKarata;
 
-                        if ((rezervacija.Stanje == 0) && zaNaplatu <= korisnik.StanjeRacuna)
+                    List<Rezervacija> sveRezervacije = new List<Rezervacija>();
+
+                    sveRezervacije = db.DobaviSveRezervacije();
+
+                    foreach (var rezervacija in sveRezervacije)
+                    {
+                        if ((rezervacija.Stanje == 0) && zaNaplatu <= kor.StanjeRacuna)
                         {
-                            korisnik.StanjeRacuna = korisnik.StanjeRacuna - zaNaplatu;
+                            kor.StanjeRacuna = kor.StanjeRacuna - zaNaplatu;
                             rezervacija.Stanje = StanjeRezervacije.PLACENA;
 
                             Database.rezervacije[rezervacija.IdRazervacije] = rezervacija;
@@ -231,16 +238,40 @@ namespace ServiceApp
                             retVal = "Uspesno ste platili projekciju.";
                             return retVal;
                         }
-
-                        retVal = "Nemate dovoljno novca na stanju. ";
-                        return retVal;
-
-                    }
                     else
+                        {
+                            retVal = "Rezervacija nije uspela.";
+                            return retVal;
+
+                        }
+
+
+                }*/
+
+                /*if (Database.rezervacije.ContainsKey(rezervacija.IdRazervacije))
+                {
+                    double zaNaplatu = projekacija.CenaKarte * rezervacija.KolicinaKarata;
+
+                    if ((rezervacija.Stanje == 0) && zaNaplatu <= korisnik.StanjeRacuna)
                     {
-                        retVal = "Ne postoji rezervacija sa brojem ID-a.";
+                        korisnik.StanjeRacuna = korisnik.StanjeRacuna - zaNaplatu;
+                        rezervacija.Stanje = StanjeRezervacije.PLACENA;
+
+                        Database.rezervacije[rezervacija.IdRazervacije] = rezervacija;
+
+                        retVal = "Uspesno ste platili projekciju.";
                         return retVal;
                     }
+
+                    retVal = "Nemate dovoljno novca na stanju. ";
+                    return retVal;
+                    */
+                //}
+                //else
+                //{
+                //    retVal = "Ne postoji rezervacija sa brojem ID-a.";
+                //    return retVal;
+          /*  }
 
                 }
                 else
@@ -249,7 +280,7 @@ namespace ServiceApp
                     return retVal;
                 }
 
-          } 
+          } */
 
         public string ProcitajProjekcije()
         {
@@ -258,7 +289,7 @@ namespace ServiceApp
             List<Projekcija> sveProjekcije = new List<Projekcija>();
 
             sveProjekcije = db.DobaviSveProjekcije();
-            //foreach (var projekcija in Database.projekcije.Values) {
+
             foreach (var projekcija in sveProjekcije)
             {
                 retString += $"Id:{projekcija.Id} -> Naziv {projekcija.Naziv} + \n";
@@ -274,7 +305,6 @@ namespace ServiceApp
 
             List<Rezervacija> sveRezervacije = new List<Rezervacija>();
 
-           // sveRezervacije = db.DobaviSveRezervacije();
 
             foreach (var rezervacija in Database.rezervacije.Values)
             {
@@ -296,11 +326,6 @@ namespace ServiceApp
             }
             return retString;
         }
-        //3. IzmeniPopust - Samo Admin
-
-        //4. NapraviRezervaciju - Korisnik ili VIP - stvara novu rezervaciju cije je stanje NEPLACENA
-
-
 
 
     }

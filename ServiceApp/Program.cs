@@ -57,7 +57,7 @@ namespace ServiceApp
                 CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN); //my je zapravo personal 
 
 
-            //DODATO OD KSENIJE
+            //audi log
             ServiceSecurityAuditBehavior newAudit = new ServiceSecurityAuditBehavior();
             newAudit.AuditLogLocation = AuditLogLocation.Application;
             newAudit.ServiceAuthorizationAuditLevel = AuditLevel.SuccessOrFailure;

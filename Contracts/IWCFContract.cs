@@ -10,61 +10,31 @@ namespace Contracts
 	[ServiceContract]
 	public interface IWCFContract
 	{
-        // [OperationContract]
-        // void TestCommunication();
 
-
-        //samo clan grupe Admin
         [OperationContract]
-        //[FaultContract(typeof(SecurityEx))]
         string DodajProjekciju(int id, string naziv, DateTime vremeProjekcije, int sala, double cenaKarte);
 
-
-        //samo clan grupe Admin
         [OperationContract]
-        //[FaultContract(typeof(SecurityEx))]
         string IzmeniProjekciju(int id, string naziv, DateTime vremeProjekcije, int sala, double cenaKarte);
 
-        //read projections
         [OperationContract]
-        //[FaultContract(typeof(SecurityEx))]
         string ProcitajProjekcije();
 
         [OperationContract]
-        //[FaultContract(typeof(SecurityEx))]
         string ProcitajRezervacije();
 
         [OperationContract]
-        //[FaultContract(typeof(SecurityEx))]
         string ProcitajKorisnika();
 
         [OperationContract]
-        //[FaultContract(typeof(SecurityEx))]
         string NapraviRezervaciju(int idRezervacije,int idProjekcije, int idKorisnika, DateTime vremeRezervacije, int kolicinaKarata, StanjeRezervacije stanje);
 
-
-        [OperationContract]
-        string PlatiRezervaciju(Rezervacija rezervacija, Projekcija projekacija, Korisnik korisnik);
-
-
+        //[OperationContract]
+        //string PlatiRezervaciju(Rezervacija rezervacija, Projekcija projekacija, Korisnik korisnik);
 
         [OperationContract]
         int IzmeniPopust(int popust);
 
-        //dodati posle sta treba za klase 
-        /*
-
-
-                //samo clan grupe Admin
-                [OperationContract]
-                string IzmeniPropust(int idKorisnika);
-
-                //Clan grupe Korisnik ili VIP 
-                [OperationContract]
-                string NapraviRezervaciju(int idKorisnika);
-
-                [OperationContract]
-                string PlatiRezervaciju(int idKorisnika);
-        */
+       
     }
 }

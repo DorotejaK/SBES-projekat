@@ -130,28 +130,28 @@ namespace ClientApp
 
         }
 
-        public string PlatiRezervaciju(Rezervacija rezervacija, Projekcija projekacija, Korisnik korisnik)
-        {
-            string retVal = "";
-            try
-            {
-                retVal = factory.PlatiRezervaciju(rezervacija, projekacija, korisnik);
-
-                return retVal;
-            }
-            catch (FaultException<SecurityEx> e)
-            {
-                Console.WriteLine("Greska prilikom pokusaja PlatiRezervaciju : {0}", e.Detail.Message);
-                return retVal;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Greska prilikom pokusaja PlatiRezervaciju: {0}", e.Message);
-                return retVal;
-            }
-
-
-        }
+        //public string PlatiRezervaciju(Rezervacija rezervacija, Projekcija projekacija, Korisnik korisnik)
+        //{
+        //    string retVal = "";
+        //    try
+        //    {
+        //        retVal = factory.PlatiRezervaciju(rezervacija, projekacija, korisnik);
+        //
+        //        return retVal;
+        //    }
+        //    catch (FaultException<SecurityEx> e)
+        //    {
+        //        Console.WriteLine("Greska prilikom pokusaja PlatiRezervaciju : {0}", e.Detail.Message);
+        //        return retVal;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine("Greska prilikom pokusaja PlatiRezervaciju: {0}", e.Message);
+        //        return retVal;
+        //    }
+        //
+        //
+        //}
         public string ProcitajProjekcije()
         {
             return factory.ProcitajProjekcije();

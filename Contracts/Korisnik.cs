@@ -11,21 +11,18 @@ namespace Contracts
     {
         int idKorisnika;
         string korisnickoIme;
-        //string lozinka;
         double stanjeRacuna;
 
         public Korisnik(string korisnickoIme, double stanjeRacuna)
         {
             this.korisnickoIme = korisnickoIme;
-           // this.lozinka = lozinka;
             this.stanjeRacuna = stanjeRacuna;
         }
 
         public Korisnik(int idKorisnika, string korisnickoIme, double stanjeRacuna)
         {
             this.idKorisnika = idKorisnika;
-            this.korisnickoIme = korisnickoIme;
-            // this.lozinka = lozinka;
+            this.korisnickoIme = korisnickoIme;         
             this.stanjeRacuna = stanjeRacuna;
         }
 
@@ -36,8 +33,7 @@ namespace Contracts
 
         [DataMember]
         public string KorisnickoIme { get; set; }
-        //[DataMember]
-        //public string Lozinku { get; set; }
+
         [DataMember]
         public double StanjeRacuna { get; set; }
 

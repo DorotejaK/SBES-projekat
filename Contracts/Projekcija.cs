@@ -9,11 +9,6 @@ namespace Contracts
     [DataContract]
     public class Projekcija
     {
-        //id(int),naziv(string),
-        //vremeProjekcije(DateTime),
-        //sala(int),
-        //cenaKarte(double).
-
         int id;
         string naziv;
         DateTime vremeProjekcije;
@@ -51,12 +46,6 @@ namespace Contracts
         [DataMember]
         public double CenaKarte { get => cenaKarte; set => cenaKarte = value; }
 
-       /* public override string ToString()
-        {
-            return String.Format("\n\nPROJEKCIJA:\n\nID : {0}, naziv : {1}, vreme projekcije : {2}, cena karte : {3}", Id, Naziv, VremeProjekcije, CenaKarte);
-
-        }
-        */
     }
 }
 

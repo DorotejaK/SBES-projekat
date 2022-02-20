@@ -13,7 +13,7 @@ namespace Manager
 	    public override void Validate(X509Certificate2 certificate)
 		{
 
-            //bool test = true;
+           // bool test = true;
 
             //throw new NotImplementedException();
             //da li su nam isti izdavaoci kod klijenta i serverw
@@ -24,23 +24,20 @@ namespace Manager
 
             if(!certificate.Issuer.Equals(srvCert.Issuer))
             {
-                //test =false;
-
-                //klijentski sertifikat je validan ukoliko je potpisan od strane istog
-                //sertifikacionog tela kao i servisni sertifikat;
+                //test =false;
                 throw new Exception("Certificate is not from valid issuer");
             }
-            /*
-             if (test )
-            {
-                Audit.AuthenticationSuccess(Formatter1.ParseName(certificate.SubjectName.Name));
-            }
-            else
-            {
-                Audit.AuthenticationFailed(Formatter1.ParseName(certificate.SubjectName.Name));
-            }
+            
+           // if (test)
+           // {
+           //     Audit.AuthenticationSuccess(Formatter1.ParseName(certificate.SubjectName.Name));
+           // }
+           // else
+           // {
+           //     Audit.AuthenticationFailed(Formatter1.ParseName(certificate.SubjectName.Name));
+           // }
              
-             */
+             
 
         }
     }
