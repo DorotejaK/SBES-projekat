@@ -62,6 +62,30 @@ namespace ClientApp
 
         }
 
+        public int IzmeniPopust(int popust)
+        {
+
+            int retVal;
+            try
+            {
+
+                retVal = factory.IzmeniPopust(popust);
+                //Console.WriteLine("Uneta je nova projekcija");
+
+                return retVal;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Greska prilikom pokusaja IzmeniPopust: {0}", e.Message);
+                return 1;
+            }
+
+        }
+
+
+
+
+
         public string IzmeniProjekciju(int id, string naziv, DateTime vremeProjekcije, int sala, double cenaKarte)
         {
 
@@ -79,16 +103,17 @@ namespace ClientApp
                 Console.WriteLine("Greska prilikom pokusaja IzmeneProjekcije: {0}", e.Message);
                 return retVal;
             }
-           
+
         }
 
-        public string NapraviRezervaciju(int id, int idProjekcije, DateTime vremeRezervacije, int kolicinaKarata, StanjeRezervacije stanje)
-        {
+        public string NapraviRezervaciju(int idRezervacije, int idProjekcije, int idKorisnika, DateTime vremeRezervacije, int kolicinaKarata, StanjeRezervacije stanje)
+        { 
+
 
             string retVal = "";
             try
             {
-                retVal = factory.NapraviRezervaciju(id, idProjekcije, vremeRezervacije, kolicinaKarata, stanje);
+                retVal = factory.NapraviRezervaciju(idRezervacije, idProjekcije, idKorisnika, vremeRezervacije, kolicinaKarata, stanje);
                 
                 return retVal;
             }
@@ -136,6 +161,10 @@ namespace ClientApp
         {
             return factory.ProcitajRezervacije();
         }
+        public string ProcitajKorisnika()
+        {
+            return factory.ProcitajRezervacije();
+        }
 
         public void Dispose()
 		{
@@ -147,22 +176,8 @@ namespace ClientApp
 			this.Close();
 		}
 
-        public string KorisnikPostoji(string korisnickoIme)
-        {
-            string retVal = "";
-            try
-            {
 
-                retVal = factory.KorisnikPostoji(korisnickoIme);
-                return retVal;
 
-            }
-            catch (Exception e)
-            {
 
-                Console.WriteLine("[KorisnikPostoji] ERROR = {0}", e.Message);
-                return retVal;
-            }
-        }
     }
 }

@@ -24,18 +24,21 @@ namespace Contracts
         //stanje(StanjeRezervacije: NEPLACENA ili PLACENA).
 
         StanjeRezervacije stanje;
-        int id;
+        int idRezervacije;
+        int idKorisnika;
         int idProjekcije;
         DateTime vremeRezervacije;
         int kolicinaKarata;
         
-        public Rezervacija(int id, int idProjekcije, DateTime vremeRezervacije, int kolicinaKarata, StanjeRezervacije stanje)
+        public Rezervacija(int idRezervacije, int idProjekcije, int idKorisnika, DateTime vremeRezervacije, int kolicinaKarata, StanjeRezervacije stanje)
         {
-            this.Stanje = stanje;
-            this.Id = id;
+          
+            this.IdRazervacije = idRezervacije;
             this.IdProjekcije = idProjekcije;
+            this.IdKorisnika = idKorisnika;
             this.VremeRezervacije = vremeRezervacije;
             this.KolicinaKarata = kolicinaKarata;
+            this.Stanje = stanje;
         }
 
 
@@ -44,9 +47,12 @@ namespace Contracts
        public StanjeRezervacije Stanje { get => stanje; set => stanje = value; }
 
        [DataMember]
-       public int Id { get => id; set => id = value; }
+       public int IdRazervacije { get => idRezervacije; set => idRezervacije = value; }
 
-       [DataMember]
+        [DataMember]
+        public int IdKorisnika { get => idKorisnika; set => idKorisnika = value; }
+
+        [DataMember]
        public int IdProjekcije { get => idProjekcije; set => idProjekcije = value; }
 
        [DataMember]

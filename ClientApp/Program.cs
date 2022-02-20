@@ -42,17 +42,13 @@ namespace ClientApp
 			using (WCFClient proxy = new WCFClient(binding, address))
 			{
 
-                Console.WriteLine("Korisnicko ime: ");
-                var ki = Console.ReadLine();
 
-                var retVal1 = proxy.KorisnikPostoji(ki);
-                Console.WriteLine(retVal1);
 
                 while (true)
                 {
 
                     Console.WriteLine("Izaberite jednu od opcija: \n\n");
-                    Console.WriteLine("1. Dodaj projekciju \n2. Izmeni projekciju \n3. Izmeni popust \n4. Napravi rezervaciju \n5. Plati rezervaciju \n6. Ispisi projekcije \n7. Ispisi rezervacije");
+                    Console.WriteLine("1. Dodaj projekciju \n2. Izmeni projekciju \n3. Izmeni popust \n4. Napravi rezervaciju \n5. Plati rezervaciju \n6. Ispisi projekcije \n7. Ispisi rezervacije \n8. Procitaj korisnika");
 
                     var opp = Console.ReadLine();
 
@@ -106,6 +102,13 @@ namespace ClientApp
                     {
                         Console.Clear();
                         Console.WriteLine("==============Izmeni popust============\n\n");
+                        
+                        Console.WriteLine("Novi popust: \n");
+                        var popust = Console.ReadLine();
+
+                        var retVal = proxy.IzmeniPopust(Convert.ToInt32(popust));
+                        Console.WriteLine(retVal);
+
 
                     }
                     else if (opp=="4")
@@ -114,14 +117,17 @@ namespace ClientApp
                         Console.Clear();
                         Console.WriteLine("==============Napravi rezervaciju============\n\n");
 
+                        Console.WriteLine("Unesite ID rezervacije: \n");
+                        var idRezervacije = Console.ReadLine();
+
                         Console.WriteLine("Unesite ID projekcije koju zelite da rezervisete: \n");
                         var idProjekcije = Console.ReadLine();
 
-                        /*Console.WriteLine("Unesite ID rezervacije: \n");
-                        var id = Console.ReadLine();
+                        Console.WriteLine("Unesite ID korisnika: \n");
+                        var idKorisnika = Console.ReadLine();
 
-                        Console.WriteLine("Unesite vremeRezervacije: \n");
-                        var vremeRezervacije = Console.ReadLine();*/
+                        // Console.WriteLine("Unesite vremeRezervacije: \n");
+                        //var vremeRezervacije = Console.ReadLine();
 
                         Console.WriteLine("Unesite broj karata koje zelite da kupite: \n");
                         var kolicinaKarata = Console.ReadLine();
@@ -134,7 +140,7 @@ namespace ClientApp
                         StanjeRezervacije stanjeRezervacije = (StanjeRezervacije)Enum.Parse(typeof(StanjeRezervacije), stanje1);
 
 
-                        var retVal = proxy.NapraviRezervaciju(Convert.ToInt32(idProjekcije), Convert.ToInt32(idRezervacija), DateTime.Now, Convert.ToInt32(kolicinaKarata), stanjeRezervacije);
+                        var retVal = proxy.NapraviRezervaciju(Convert.ToInt32(idRezervacija), Convert.ToInt32(idProjekcije), Convert.ToInt32(idKorisnika), DateTime.Now, Convert.ToInt32(kolicinaKarata), stanjeRezervacije);
                         Console.WriteLine(retVal);
 
                     }
@@ -159,6 +165,13 @@ namespace ClientApp
                         Console.WriteLine("==============Ispisi rezervacije============\n\n");
                         Console.WriteLine(proxy.ProcitajRezervacije());
                     }
+                    else if (opp == "8")
+                    {
+                        Console.Clear();
+                        Console.WriteLine("==============Ispisi korisnike============\n\n");
+                        Console.WriteLine(proxy.ProcitajKorisnika());
+                    }
+
                     else
                     {
                         Console.Clear();

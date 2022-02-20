@@ -62,38 +62,38 @@ namespace SQLDatabase
             }
         }
 
-       /* public Boolean DobaviProjekciju(int id)
+        public void SacuvajRezervaciju(Rezervacija rezervacija)
         {
             try
             {
                 myConnection.Open();
-                string querry = $"SELECT * FROM Projekcija WHERE idProjekcije='{id}'";
+                string querry = $"insert into Rezervacija ('idRezervacije','idProjekcije','idKorisnika','vremeRezervacije','kolicinaKarata','stanje')" +
+                                 $" values (@idr,@idk,@idp,@vr,@kk,@s)";
+
                 SQLiteCommand cmd = new SQLiteCommand(querry, myConnection);
-                var result = cmd.ExecuteReader();
 
+                cmd.Parameters.AddWithValue("@idr", rezervacija.IdRazervacije);
+                cmd.Parameters.AddWithValue("@idk", rezervacija.IdProjekcije);
+                cmd.Parameters.AddWithValue("@idp", rezervacija.IdKorisnika);
+                cmd.Parameters.AddWithValue("@vr", rezervacija.VremeRezervacije);
+                cmd.Parameters.AddWithValue("@kk", rezervacija.KolicinaKarata);
+                cmd.Parameters.AddWithValue("@s", rezervacija.Stanje);
 
-
-               Projekcija pr = new Projekcija(Convert.ToInt16(result["idProjekcije"]), Convert.ToString(result["naziv"]), Convert.ToDateTime(result["datumProjekcije"]), Convert.ToInt16(result["sala"]), Convert.ToDouble(result["cenaKarte"]));
+                var result = cmd.ExecuteNonQuery();
                 myConnection.Close();
-
-                if (pr != null)
-                    return true;
-                else
-                    return false;
             }
             catch (SQLiteException sqle)
             {
                 myConnection.Close();
                 Console.WriteLine(sqle.Message);
-                return false;
             }
             catch (Exception e)
             {
                 myConnection.Close();
                 Console.WriteLine(e.Message);
-                return false;
             }
-        }*/
+        }
+
 
         public void AzurirajProjekcije(Projekcija p)
         {
@@ -116,6 +116,8 @@ namespace SQLDatabase
                 Console.WriteLine(e.Message);
             }
         }
+
+
 
         public List<Projekcija> DobaviSveProjekcije()
         {
@@ -144,5 +146,36 @@ namespace SQLDatabase
             }
 
         }
+
+        public List<Korisnik> DobaviSveKorisnike()
+        {
+            try
+            {
+                List<Korisnik> retVal = new List<Korisnik>();
+                myConnection.Open();
+                string querry = $"select * from Korisnik";
+                SQLiteCommand cmd = new SQLiteCommand(querry, myConnection);
+                var result = cmd.ExecuteReader();
+                if (result.HasRows)
+                {
+                    while (result.Read())
+                    {
+                        retVal.Add(new Korisnik(Convert.ToInt32(result["idKorisnika"]), Convert.ToString(result["korisnickoIme"]),  Convert.ToDouble(result["stanjeRacuna"])));
+                    }
+                }
+                myConnection.Close();
+                return retVal;
+            }
+            catch (Exception e)
+            {
+                myConnection.Close();
+                Console.WriteLine(e.Message);
+                return null;
+            }
+
+        }
+
+       
+
     }
 }

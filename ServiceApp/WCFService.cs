@@ -13,32 +13,11 @@ namespace ServiceApp
     {
 
         public DatabaseController db = new DatabaseController();
-
-        // foreach (var rezervacija in Database.rezervacije.Values)
-        public string KorisnikPostoji(string korisnickoIme)
-        {
-            // var rezervacija in Database.rezervacije.Values
-            string retVal;
-
-            //foreach (Korisnik k in Database.korisnici.ToValue())
-            foreach(var korisnici in Database.korisnici.Values)
-            {
-                if(korisnici.KorisnickoIme==korisnickoIme)
-                {
-                    retVal = "Uspesno ste ulogovani.";
-                    return retVal;
-                }
-            }
-
-            retVal = "Ne postoji korisnicko ime u bazi";
-            return retVal;
-        }
+     
 
         public string DodajProjekciju(int id, string naziv, DateTime vremeProjekcije, int sala, double cenaKarte)
         {
-
-
-            
+       
              X509Certificate2 cltCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine,
              Formatter1.ParseName(ServiceSecurityContext.Current.PrimaryIdentity.Name));
             string grupa = CertManager.GetUserGroup(cltCert);
@@ -73,6 +52,7 @@ namespace ServiceApp
             }
         }
 
+
         public string IzmeniProjekciju(int id, string naziv, DateTime vremeProjekcije, int sala, double cenaKarte)
         {
 
@@ -81,30 +61,16 @@ namespace ServiceApp
 
             string grupa = CertManager.GetUserGroup(cltCert);
 
-
             string retVal="";
-
 
                 if (grupa == "admin")
                 {
-
-                    
-                    //if (db.DobaviProjekciju(id))
-                    //{
-
-                        /*  db.AzurirajProjekcije(new Projekcija(id, naziv, vremeProjekcije, sala, cenaKarte));
-
-
-                          retVal = "Uspesno izmenjena projekcija.";
-                              return retVal;*/
-
+       
                         List<Projekcija> projekcije = new List<Projekcija>();
 
                         bool pronasao = false;
-                        //double iznos = 0; 
 
                         projekcije = db.DobaviSveProjekcije();
-
 
                         foreach (Projekcija p in projekcije)
                         {
@@ -129,16 +95,6 @@ namespace ServiceApp
                         }
 
                         return retVal;
-
-                    //}
-                    /*else
-                    {
-
-
-                        retVal = "Neuspesno izmenjena projekcija.";
-                        return retVal;
-
-                    }*/
             
                 }
                 else
@@ -149,7 +105,44 @@ namespace ServiceApp
 
         }
 
-        public string NapraviRezervaciju(int id, int idProjekcije, DateTime vremeRezervacije, int kolicinaKarata, StanjeRezervacije stanje)
+
+        public int IzmeniPopust(int popust)
+        {
+
+            X509Certificate2 cltCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine,
+                Formatter1.ParseName(ServiceSecurityContext.Current.PrimaryIdentity.Name));
+
+            string grupa = CertManager.GetUserGroup(cltCert);          
+
+            int p = 10;
+            int noviPopust=0;
+
+            if (grupa == "admin")
+            {
+
+
+
+                if(popust!=p)
+                {
+                    noviPopust = popust;
+                    Console.WriteLine("Trenutni popust je: {0}", noviPopust);
+                    return noviPopust;
+                }
+                else
+                {
+                    noviPopust = p;
+                    Console.WriteLine("Popust nije izmenjen. Trenutni popust je {0}", p);
+                    return p;
+                }
+            }
+            else
+            {
+                return 1;
+            }
+        }
+
+
+        public string NapraviRezervaciju(int idRezervacije, int idProjekcije, int idKorisnika, DateTime vremeRezervacije, int kolicinaKarata, StanjeRezervacije stanje)
         {
 
             X509Certificate2 cltCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine,
@@ -161,20 +154,36 @@ namespace ServiceApp
 
             if(grupa == "korisnik" || grupa == "vip")
             {
-                if (Database.projekcije.ContainsKey(idProjekcije))
-                {
-                    Rezervacija r = new Rezervacija(id, idProjekcije, vremeRezervacije, kolicinaKarata, stanje);
-                    Database.rezervacije[id] = r;
 
-                    retVal = "Rezervacija uspesno obavljena.";
-                    return retVal;
-                }
-                else
-                {
-                    retVal = "Rezervacija nije uspela.";
-                    return retVal;
+                List<Projekcija> sveProjekcije = new List<Projekcija>();
 
+                sveProjekcije = db.DobaviSveProjekcije();
+
+                foreach (var projekcija in sveProjekcije)
+                {
+                    if(projekcija.Id==idProjekcije)
+                    {
+                        Rezervacija r = new Rezervacija(idRezervacije, idProjekcije, idKorisnika, vremeRezervacije, kolicinaKarata, stanje);
+                        Database.rezervacije[idRezervacije] = r;
+                    
+                        db.SacuvajRezervaciju(new Rezervacija(idRezervacije, idProjekcije, idKorisnika, vremeRezervacije, kolicinaKarata, stanje));
+                    
+                        retVal = "Rezervacija uspesno obavljena.";
+                        return retVal;
+                    }
+                    else
+                    {
+                        retVal = "Rezervacija nije uspela.";
+                        return retVal;
+
+                    }
+
+                   
                 }
+
+                retVal = "??";
+                return retVal;
+
             }
             else
             {
@@ -208,7 +217,7 @@ namespace ServiceApp
                 if (grupa == "korisnik" || grupa == "vip")
                 {
 
-                    if (Database.rezervacije.ContainsKey(rezervacija.Id))
+                    if (Database.rezervacije.ContainsKey(rezervacija.IdRazervacije))
                     {
                         double zaNaplatu = projekacija.CenaKarte * rezervacija.KolicinaKarata;
 
@@ -217,7 +226,7 @@ namespace ServiceApp
                             korisnik.StanjeRacuna = korisnik.StanjeRacuna - zaNaplatu;
                             rezervacija.Stanje = StanjeRezervacije.PLACENA;
 
-                            Database.rezervacije[rezervacija.Id] = rezervacija;
+                            Database.rezervacije[rezervacija.IdRazervacije] = rezervacija;
 
                             retVal = "Uspesno ste platili projekciju.";
                             return retVal;
@@ -246,11 +255,11 @@ namespace ServiceApp
         {
             string retString = "";
 
-            List<Projekcija> sveProejkcije = new List<Projekcija>();
+            List<Projekcija> sveProjekcije = new List<Projekcija>();
 
-            sveProejkcije = db.DobaviSveProjekcije();
+            sveProjekcije = db.DobaviSveProjekcije();
             //foreach (var projekcija in Database.projekcije.Values) {
-            foreach (var projekcija in sveProejkcije)
+            foreach (var projekcija in sveProjekcije)
             {
                 retString += $"Id:{projekcija.Id} -> Naziv {projekcija.Naziv} + \n";
             }
@@ -262,9 +271,28 @@ namespace ServiceApp
         public string ProcitajRezervacije()
         {
             string retString = "";
+
+            List<Rezervacija> sveRezervacije = new List<Rezervacija>();
+
+           // sveRezervacije = db.DobaviSveRezervacije();
+
             foreach (var rezervacija in Database.rezervacije.Values)
             {
-                retString += $"Id:{rezervacija.Id} -> Id projekcije {rezervacija.IdProjekcije} + \n";
+                retString += $"Id:{rezervacija.IdRazervacije} -> Id projekcije {rezervacija.IdProjekcije} + \n";
+            }
+            return retString;
+        }
+
+        public string ProcitajKorisnika()
+        {
+            string retString = "";
+
+            List<Korisnik> sviKorisnici = new List<Korisnik>();
+
+            sviKorisnici = db.DobaviSveKorisnike();
+            foreach (var korisnik in Database.korisnici.Values)
+            {
+                retString += $"Id:{korisnik.IdKorisnika} -> Korisnicko ime {korisnik.KorisnickoIme} + \n";
             }
             return retString;
         }

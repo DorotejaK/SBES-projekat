@@ -36,14 +36,20 @@ namespace Contracts
 
         [OperationContract]
         //[FaultContract(typeof(SecurityEx))]
-        string NapraviRezervaciju(int id, int idProjekcije, DateTime vremeRezervacije, int kolicinaKarata, StanjeRezervacije stanje);
+        string ProcitajKorisnika();
+
+        [OperationContract]
+        //[FaultContract(typeof(SecurityEx))]
+        string NapraviRezervaciju(int idRezervacije,int idProjekcije, int idKorisnika, DateTime vremeRezervacije, int kolicinaKarata, StanjeRezervacije stanje);
 
 
         [OperationContract]
         string PlatiRezervaciju(Rezervacija rezervacija, Projekcija projekacija, Korisnik korisnik);
 
+
+
         [OperationContract]
-        string KorisnikPostoji(string korisnickoIme);
+        int IzmeniPopust(int popust);
 
         //dodati posle sta treba za klase 
         /*

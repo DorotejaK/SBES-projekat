@@ -9,7 +9,7 @@ namespace Contracts
     [DataContract]
     public class Korisnik
     {
-
+        int idKorisnika;
         string korisnickoIme;
         //string lozinka;
         double stanjeRacuna;
@@ -20,6 +20,19 @@ namespace Contracts
            // this.lozinka = lozinka;
             this.stanjeRacuna = stanjeRacuna;
         }
+
+        public Korisnik(int idKorisnika, string korisnickoIme, double stanjeRacuna)
+        {
+            this.idKorisnika = idKorisnika;
+            this.korisnickoIme = korisnickoIme;
+            // this.lozinka = lozinka;
+            this.stanjeRacuna = stanjeRacuna;
+        }
+
+        public Korisnik() { }
+
+        [DataMember]
+        public int IdKorisnika { get; set; }
 
         [DataMember]
         public string KorisnickoIme { get; set; }
